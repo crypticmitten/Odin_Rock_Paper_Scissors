@@ -1,5 +1,9 @@
 
 const CHOICES = ["rock","paper","scissors"];
+const values = {
+    "rock":[1],
+    "paper":[2],
+    "scissors":[3]};
 
 function choose(){
     let choice = CHOICES[Math.floor(Math.random()*3)];
@@ -9,54 +13,24 @@ console.log("Rock, Paper or Scissors")
 var playerscore = 0
 var computerscore = 0
 
-Object.defineProperty(window,"rock",{
-    get: function(){
-        let choice = choose();
-        if (choice == "rock"){
-            console.log("draw");
-        }
-        else if(choice == "paper"){
-            console.log("%cI win! HAHAHA","color:red;");
-            computerscore++;
-        }
-        else{
-            console.log("%cYou win",'color:green;');
-            playerscore++
-        }
-        console.log(playerscore,computerscore);
+function playRound(e){
+    const choice = e.target.id;
+    const opponent = choose();
+    if(!choice){
+        return
     }
-})
-Object.defineProperty(window,"paper",{
-    get: function(){
-        let choice = choose();
-        if (choice == "paper"){
-            console.log("draw");
-        }
-        else if(choice == "scissors"){
-            console.log("%cI win! HAHAHA","color:red;");
-            computerscore++;
-        }
-        else{
-            console.log("%cYou win",'color:green;');
-            playerscore++;
-        }
-        console.log(playerscore,computerscore);
+    console.log(opponent)
+    const result = document.getElementById("result");
+    result.textContent=opponent;
+    if (choice == opponent){
+        result.textContent = "Draw";
     }
-})
-Object.defineProperty(window,"scissors",{
-    get: function(){
-        let choice = choose();
-        if (choice == "scissors"){
-            console.log("draw");
-        }
-        else if(choice == "rock"){
-            console.log("%cI win! HAHAHA","color:red;");
-            computerscore++;
-        }
-        else{
-            console.log("%cYou win",'color:green;');
-            playerscore++;
-        }
-        console.log(playerscore,computerscore);
+    else if(values[choice] - values[opponent] == 1 || choice=="rock" && opponent=="scissors"){
+        result.textContent = "You Win";
     }
-})
+    else{
+        result.textContent = "I win";
+    }
+}
+
+document.addEventListener("click",(e) => playRound(e))
