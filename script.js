@@ -30,23 +30,6 @@ function playRound(e){
     if(!choice){
         return
     }
-    console.log(opponent)
-    const result = document.getElementById("result");
-    if (choice == opponent){
-        result.textContent = "Draw";
-    }
-    else if(values[choice] - values[opponent] == 1 || choice=="rock" && opponent=="scissors"){
-        result.textContent = "You Win";
-    }
-    else{
-        result.textContent = "I win";
-    }
-    play = false;
-    document.getElementById("slide").src = slideimages[values[opponent]-1].src
-    document.getElementById("rock").disabled = true;
-    document.getElementById("paper").disabled = true;
-    document.getElementById("scissors").disabled = true;
-    document.getElementById("reset").style.visibility = 'visible';
     if (choice == "reset"){
         play = true;
         document.getElementById("rock").disabled = false;
@@ -54,6 +37,40 @@ function playRound(e){
         document.getElementById("scissors").disabled = false;
         document.getElementById("reset").style.visibility = 'hidden';
         document.getElementById("result").textContent = "VS"
+        return
+    }
+    console.log(opponent)
+    const result = document.getElementById("result");
+    if (choice == opponent){
+        result.textContent = "Draw";
+    }
+    else if(values[choice] - values[opponent] == 1 || choice=="rock" && opponent=="scissors"){
+        result.textContent = "You Win";
+        playerscore++;
+    }
+    else{
+        result.textContent = "I win";
+        computerscore++;
+    }
+    document.getElementById("score").textContent = playerscore+":"+computerscore;
+    play = false;
+    document.getElementById("slide").src = slideimages[values[opponent]-1].src
+    document.getElementById("rock").disabled = true;
+    document.getElementById("paper").disabled = true;
+    document.getElementById("scissors").disabled = true;
+
+    if (playerscore == 5){
+        result.textContent = "You Win The Match!!!";
+        result.style.color = "green";
+        result.style.fontSize = '64px';
+    }
+    else if(computerscore == 5){
+        result.textContent = "I Win the Match!!! HAHAHAHA!";
+        result.style.color = "red";
+        result.style.fontSize = '64px';
+    }
+    else{
+        document.getElementById("reset").style.visibility = 'visible';
     }
 }
 
@@ -68,7 +85,7 @@ function slideit(){
             step = 0;
         }
     }
-    setTimeout("slideit()",500);
+    setTimeout("slideit()",200);
 }
 
 
